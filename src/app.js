@@ -1,18 +1,28 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+'use strict'
 
-var indexRouter = require('./api/index');
-var usersRouter = require('./api/users');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const helmet = require("helmet");
+const compression = require('compression');
+const bodyParser = require('body-parser');
 
-var app = express();
+const indexRouter = require('./api/index');
+const usersRouter = require('./api/users');
 
+const app = express();
+
+app.use(helmet());
+app.use(compression())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
