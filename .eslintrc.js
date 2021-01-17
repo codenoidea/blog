@@ -6,5 +6,5 @@ module.exports = {
   },
   extends: ["airbnb-base", "plugin:prettier/recommended"],
   plugins: ["prettier"],
-  ignorePatterns: ["node_modules/"],
+  ignorePatterns: ["node_modules/", "data/"],
 }

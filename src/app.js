@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const compression = require('compression');
 const bodyParser = require('body-parser');
 
+const mongodb = require('./db/mongodb');
 const indexRouter = require('./api/index');
 const usersRouter = require('./api/users');
 
@@ -23,6 +24,13 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+
+
+//Bind connection to error event (to get notification of connection errors)
+mongodb.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongodb.once('open', function callback () {
+  console.log("mongo db connection OK.");
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
