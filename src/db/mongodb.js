@@ -1,13 +1,12 @@
-//Import the mongoose module
-const mongoose = require('mongoose');
-const config = require('../config');
+import Mongoose from 'mongoose';
+// import * as config from '../config';
 
-//Set up default mongoose connection
-const mongoDB = config.mongoDb;
-mongoose.connect(mongoDB);
+// Set up default mongoose connection
+const mongoDB = 'mongodb://127.0.0.1:27017/blog';
+Mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
-mongoose.Promise = global.Promise;
-//Get the default connection
-const db = mongoose.connection;
+Mongoose.Promise = global.Promise;
+// Get the default connection
+const db = Mongoose.connection;
 
-module.exports = db;
+export default db;
