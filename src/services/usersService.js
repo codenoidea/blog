@@ -2,16 +2,14 @@
 
 import UserModel from '../models/usersModel';
 
-export default class UserService {
-
-  constructor() {
-    console.loog(1);
-  }
+class UserService {
   async SignUp(user) {
-    const userRecord = await UserModel.save(user);
-    return {
-      user: userRecord,
-      company: companyRecord
+    try {
+      return await UserModel.save(user);
+    } catch (e) {
+      throw e;
     }
   }
 }
+
+export default new UserService();

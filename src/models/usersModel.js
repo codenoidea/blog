@@ -3,17 +3,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
-    id: Schema.ObjectId,
-    name: String,
-    password: String,
-    updated: { type: Date, default: Date.now },
-    age: { type: Number, min: 18, max: 65, required: true },
+  id: Schema.ObjectId,
+  name: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  updated: {
+    type: Date,
+    default: Date.now
+  },
+  age: {
+    type: Number,
+    min: 18,
+    max: 65
+  },
 });
 
-const UsersModel = module.exports = mongoose.model('Users', UsersSchema );
+const UsersModel = mongoose.model('users', UsersSchema);
 
 module.exports.save = async (params) => {
-  let users = new UsersModel();
-  users = params;
-  await users.save();
+  const users = new UsersModel(params);
+  return await users.save();
 }
