@@ -26,6 +26,5 @@ const UsersSchema = new Schema({
 const UsersModel = mongoose.model('users', UsersSchema);
 
 module.exports.create = async (params) => {
-  // const users = new UsersModel(params);
   return await UsersModel.create(params);
 }

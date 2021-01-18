@@ -10,7 +10,7 @@ class UserService {
     try {
       return await UserModel.create(user);
     } catch (e) {
-      throw new BadRequest('Missing age');
+      throw new BadRequest(['Missing age', e]);
     }
   }
 }

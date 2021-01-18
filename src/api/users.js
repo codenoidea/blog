@@ -4,8 +4,7 @@ import express from 'express';
 const router = express.Router();
 import UserService from '../services/usersService';
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', async (req, res, next) => {
   res.send('respond with a resource');
 });
 

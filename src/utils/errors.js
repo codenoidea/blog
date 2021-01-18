@@ -3,7 +3,9 @@
 class GeneralError extends Error {
   constructor(message) {
     super();
-    this.message = message;
+    this.message = message[0];
+    this.detail = message[1];
+    console.error(message[1])
   }
 
   getCode() {
