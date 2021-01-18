@@ -10,10 +10,14 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', async (req, res, next) => {
-  const result = await UserService.SignUp(req.body);
-  res.json({
-    result
-  });
+  try {
+    const result = await UserService.SignUp(req.body);
+    res.json({
+      result
+    });
+  } catch (e) {
+    next(e);
+  }
 })
 
 export default router;

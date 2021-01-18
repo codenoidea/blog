@@ -1,3 +1,5 @@
+'use strict'
+
 const jwt = require('json-web-token');
 const config = require('../config');
 
@@ -36,7 +38,9 @@ exports.refresh = function (req, res) {
 
   const users = [];
   // retrieve the refresh token from the users array
-  const { refreshToken } = users[payload.username];
+  const {
+    refreshToken
+  } = users[payload.username];
 
   // verify the refresh token
   try {
@@ -45,12 +49,14 @@ exports.refresh = function (req, res) {
     return res.status(401).send();
   }
 
-  const newToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET,
-    {
-      algorithm: 'HS256',
-      expiresIn: config.ACCESS_TOKEN_LIFE,
-    });
+  const newToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: config.ACCESS_TOKEN_LIFE,
+  });
 
-  res.cookie('jwt', newToken, { secure: true, httpOnly: true });
+  res.cookie('jwt', newToken, {
+    secure: true,
+    httpOnly: true
+  });
   res.send();
 };
