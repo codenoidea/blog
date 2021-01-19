@@ -1,11 +1,22 @@
 'use strict'
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
+import UserService from '../services/usersService';
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', async (req, res, next) => {
   res.send('respond with a resource');
 });
 
-module.exports = router;
+router.post('/', async (req, res, next) => {
+  try {
+    const result = await UserService.SignUp(req.body);
+    res.json({
+      result
+    });
+  } catch (e) {
+    next(e);
+  }
+})
+
+export default router;
