@@ -32,7 +32,7 @@ module.exports.SignIn = async (params) => {
   try {
     return await UsersModel.find(params);
   } catch (error) {
-    throw new BadRequest(['SignIn error', e]);
+    throw new BadRequest('로그인시 오류가 발생했습니다.');
   }
 }
 
@@ -40,7 +40,7 @@ module.exports.SignUp = async (params) => {
   try {
     return await UsersModel.create(params);
   } catch (error) {
-    throw new BadRequest(['SignUp error', error]);
+    throw new BadRequest('가입시 오류가 발생했습니다.');
   }
 
 }
