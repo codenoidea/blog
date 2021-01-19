@@ -6,11 +6,21 @@ import {
 } from '../utils/errors';
 
 class UserService {
+  async SignIn(user) {
+    try {
+      return await UserModel.SignIn({
+        name: user.name
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async SignUp(user) {
     try {
-      return await UserModel.create(user);
-    } catch (e) {
-      throw new BadRequest(['Missing age', e]);
+      return await UserModel.SignUp(user);
+    } catch (error) {
+      throw error;
     }
   }
 }
