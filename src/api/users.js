@@ -8,7 +8,18 @@ router.get('/', async (req, res, next) => {
   res.send('respond with a resource');
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/singIn', async (req, res, next) => {
+  try {
+    const result = await UserService.SignIn(req.body);
+    res.json({
+      result
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post('/signUp', async (req, res, next) => {
   try {
     const result = await UserService.SignUp(req.body);
     res.json({
@@ -17,6 +28,6 @@ router.post('/', async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-})
+});
 
 export default router;
