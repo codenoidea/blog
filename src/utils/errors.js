@@ -1,33 +1,63 @@
 'use strict'
 
-class GeneralError extends Error {
-  constructor(message) {
-    super();
-    this.message = message[0];
-    this.detail = message[1];
-    console.error(message[1])
-  }
-
-  getCode() {
-    if (this instanceof BadRequest) {
-      return 400;
-    }
-    if (this instanceof NotFound) {
-      return 404;
-    }
-    if (this instanceof Unauthorized) {
-      return 401;
-    }
-    return 500;
+class ApplicationError extends Error {
+  get name() {
+    return this.constructor.name;
   }
 }
 
-class BadRequest extends GeneralError {}
-class NotFound extends GeneralError {}
-class Unauthorized extends GeneralError {}
+class BadRequest extends ApplicationError {
+  constructor(message, options = {}) {
+    super(message);
+
+    // You can attach relevant information to the error instance
+    // (e.g.. the username)
+
+    for (const [key, value] of Object.entries(options)) {
+      this[key] = value;
+    }
+  }
+
+  get statusCode() {
+    return 400;
+  }
+}
+
+class NotFound extends ApplicationError {
+  constructor(message, options = {}) {
+    super(message);
+
+    // You can attach relevant information to the error instance
+    // (e.g.. the username)
+
+    for (const [key, value] of Object.entries(options)) {
+      this[key] = value;
+    }
+  }
+  get statusCode() {
+    return 404
+  }
+}
+
+class Unauthorized extends ApplicationError {
+  constructor(message, options = {}) {
+    super(message);
+
+    // You can attach relevant information to the error instance
+    // (e.g.. the username)
+
+    for (const [key, value] of Object.entries(options)) {
+      this[key] = value;
+    }
+  }
+  get statusCode() {
+    return 401
+  }
+}
 
 module.exports = {
-  GeneralError,
+  ApplicationError,
   BadRequest,
-  NotFound
+  NotFound,
+  Unauthorized
 };

@@ -1,6 +1,9 @@
 'use strict'
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+import {
+  BadRequest
+} from '../utils/errors';
 
 const UsersSchema = new Schema({
   id: Schema.ObjectId,
@@ -25,6 +28,19 @@ const UsersSchema = new Schema({
 
 const UsersModel = mongoose.model('users', UsersSchema);
 
-module.exports.create = async (params) => {
-  return await UsersModel.create(params);
+module.exports.SignIn = async (params) => {
+  try {
+    return await UsersModel.find(params);
+  } catch (error) {
+    throw new BadRequest('로그인시 오류가 발생했습니다.');
+  }
+}
+
+module.exports.SignUp = async (params) => {
+  try {
+    return await UsersModel.create(params);
+  } catch (error) {
+    throw new BadRequest('가입시 오류가 발생했습니다.');
+  }
+
 }
