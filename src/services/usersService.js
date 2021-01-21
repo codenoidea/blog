@@ -5,6 +5,7 @@ import {
   BadRequest
 } from '../utils/errors';
 import Bcrypt from '../utils/bcrypt';
+import Jwt from '../utils/jwt';
 
 async function comparePassword(user, result) {
   if (!await Bcrypt.compare(user.password, result.password)) {
@@ -19,7 +20,10 @@ class UserService {
         name: user.name
       });
       await comparePassword(user, userResult[0]);
-      return userResult;
+      const token = Jwt.sign(user);
+      return {
+        token
+      };
     } catch (error) {
       throw error;
     }

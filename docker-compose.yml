@@ -4,6 +4,9 @@ services:
     container_name: node-web-app
     image: node-web-app
     restart: always
+    environment:
+      - NODE_ENV=development
+      - mongoDb=mongodb://mongo:27017/blog
     build: .
     ports:
       - '3000:3000'
