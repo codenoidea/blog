@@ -21,7 +21,7 @@
   "scripts": {
     "start": "node ./src/bin/www",
     "server": "nodemon ./src/bin/www.js --exec babel-node",
-    "dev": "NODE_ENV=development npm-run-all server",
+    "test": "NODE_ENV=development npm-run-all server",
     "prod": "NODE_ENV=production npm-run-all server",
     "dev_windows": "set NODE_ENV=development&&npm-run-all server",
     "watch:dev": "nodemon"
