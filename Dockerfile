@@ -8,4 +8,4 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 
-CMD [ "nodemon", "./src/bin/www" ]
+CMD [ "npm", "test" ]

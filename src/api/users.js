@@ -3,9 +3,13 @@
 import express from 'express';
 const router = express.Router();
 import UserService from '../services/usersService';
+import authenticateJWT from '../middleware/authenticate';
 
-router.get('/', async (req, res, next) => {
-  res.send('respond with a resource');
+router.get('/', authenticateJWT, async (req, res, next) => {
+  res.json({
+    message: '성공',
+    user: req.user,
+  });
 });
 
 router.post('/singIn', async (req, res, next) => {
