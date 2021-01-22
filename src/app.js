@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import db from './db/mongodb';
 import indexRouter from './api/index';
 import usersRouter from './api/users';
+import blogsRouter from './api/blogs';
 import handleErrors from './middleware/handleErrors';
 
 const app = express();
@@ -35,6 +36,7 @@ db.once('open', () => {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/blogs', blogsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

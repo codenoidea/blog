@@ -26,3 +26,12 @@ develop 브랜치에서 새 브랜치 생성
 > main 브랜치에 develop 브랜치 머지
 > 완료
 ```
+
+## docker 명령어
+```
+docker build -t {이미지이름} .
+docker build -t {이미지이름} . -f {도커파일}
+
+docker-compose up -d
+docker-compose -f {컴포즈파일} up -d
+```
