@@ -16,6 +16,10 @@ const BlogsSchema = new Schema({
     type: String,
     required: true
   },
+  userId: {
+    type: String,
+    required: true
+  },
   created: {
     type: Date,
     default: Date.now
@@ -27,6 +31,16 @@ const BlogsSchema = new Schema({
 });
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
+
+module.exports.list = async (user) => {
+  try {
+    return await BlogsModel.find({
+      userId: user.userId
+    });
+  } catch (error) {
+    throw new BadRequest('목록을 가져오지 못했습니다.');
+  }
+}
 
 module.exports.create = async (params, session) => {
   try {
