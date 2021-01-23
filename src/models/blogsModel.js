@@ -55,11 +55,13 @@ export async function update(data, session) {
   try {
     const blog = await getFindOne(data);
     if (blog) {
+      const update = data.update;
+      update.updated = new Date().toISOString();
       return await BlogsModel.findByIdAndUpdate({
-          _id: blog._id
-        }, data.update,
+        _id: blog._id
+      }, update, {
         session
-      );
+      });
     }
     return null;
   } catch (error) {
