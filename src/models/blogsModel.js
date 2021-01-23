@@ -32,6 +32,16 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
+module.exports.read = async (params) => {
+  try {
+    return await BlogsModel.findOne({
+      _id: params.id
+    });
+  } catch (error) {
+    throw new BadRequest('상세를 가져오지 못했습니다.');
+  }
+}
+
 module.exports.list = async (user) => {
   try {
     return await BlogsModel.find({

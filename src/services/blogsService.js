@@ -7,6 +7,17 @@ import {
 } from '../utils/errors';
 
 class BlogsService {
+  async read(req) {
+    try {
+      const {
+        params
+      } = req;
+      return await blogsModel.read(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async list(req) {
     try {
       const {
