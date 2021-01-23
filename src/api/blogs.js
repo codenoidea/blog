@@ -5,6 +5,17 @@ const router = express.Router();
 import BlogsService from '../services/blogsService';
 import authenticateJWT from '../middleware/authenticate';
 
+router.get('/:id', authenticateJWT, async (req, res, next) => {
+  try {
+    const result = await BlogsService.read(req);
+    res.json({
+      result
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.get('/', authenticateJWT, async (req, res, next) => {
   try {
     const result = await BlogsService.list(req);
