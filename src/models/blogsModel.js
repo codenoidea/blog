@@ -52,10 +52,10 @@ module.exports.update = async (data, session) => {
     const blog = await BlogsModel.findOne(data.query);
     if (blog) {
       return await BlogsModel.findByIdAndUpdate({
-        _id: blog._id
-      }, data.update, {
-        session: session
-      });
+          _id: blog._id
+        }, data.update,
+        session
+      );
     }
     return null;
   } catch (error) {
@@ -86,9 +86,9 @@ module.exports.list = async (user) => {
 
 module.exports.create = async (params, session) => {
   try {
-    return await BlogsModel.create([params], {
-      session: session
-    });
+    return await BlogsModel.create([params],
+      session
+    );
   } catch (error) {
     console.error(error);
     throw new BadRequest('생성시 오류가 발생했습니다.');
