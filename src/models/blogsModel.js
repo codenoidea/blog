@@ -32,7 +32,7 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
-module.exports.delete = async (data, session) => {
+export async function remove(data, session) {
   try {
     const blog = await BlogsModel.findOne(data.query);
     if (blog) {
@@ -47,7 +47,7 @@ module.exports.delete = async (data, session) => {
   }
 }
 
-module.exports.update = async (data, session) => {
+export async function update(data, session) {
   try {
     const blog = await BlogsModel.findOne(data.query);
     if (blog) {
@@ -64,7 +64,7 @@ module.exports.update = async (data, session) => {
   }
 };
 
-module.exports.read = async (params) => {
+export async function read(params) {
   try {
     return await BlogsModel.findOne({
       _id: params.id
@@ -74,7 +74,7 @@ module.exports.read = async (params) => {
   }
 }
 
-module.exports.list = async (user) => {
+export async function list(user) {
   try {
     return await BlogsModel.find({
       userId: user.userId
@@ -84,7 +84,7 @@ module.exports.list = async (user) => {
   }
 }
 
-module.exports.create = async (params, session) => {
+export async function create(params, session) {
   try {
     return await BlogsModel.create([params],
       session

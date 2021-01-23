@@ -7,7 +7,7 @@ import authenticateJWT from '../middleware/authenticate';
 
 router.delete('/:id', authenticateJWT, async (req, res, next) => {
   try {
-    const result = await BlogsService.delete(req);
+    const result = await BlogsService.remove(req);
     res.json({
       result
     });
