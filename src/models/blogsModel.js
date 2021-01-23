@@ -57,7 +57,7 @@ export async function update(data, session) {
     if (blog) {
       const update = data.update;
       update.updated = new Date().toISOString();
-      return await BlogsModel.findByIdAndUpdate({
+      return await BlogsModel.updateMany({
         _id: blog._id
       }, update, {
         session
