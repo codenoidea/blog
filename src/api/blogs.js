@@ -18,7 +18,7 @@ router.get('/', authenticateJWT, async (req, res, next) => {
 
 router.post('/', authenticateJWT, async (req, res, next) => {
   try {
-    const result = await BlogsService.create(req.body);
+    const result = await BlogsService.create(req);
     res.json({
       result
     });
