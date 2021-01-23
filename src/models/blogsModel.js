@@ -32,6 +32,23 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
+module.exports.update = async (data, session) => {
+  try {
+    const blog = await BlogsModel.findOne(data.query);
+    if (blog) {
+      return await BlogsModel.findByIdAndUpdate({
+        _id: blog._id
+      }, data.update, {
+        session: session
+      });
+    }
+    return null;
+  } catch (error) {
+    console.error(error);
+    throw new BadRequest('저장시 오류가 발생했습니다.');
+  }
+};
+
 module.exports.read = async (params) => {
   try {
     return await BlogsModel.findOne({

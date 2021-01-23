@@ -7,6 +7,36 @@ import {
 } from '../utils/errors';
 
 class BlogsService {
+  async update(req) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const {
+        user,
+        body,
+        params,
+      } = req;
+      const data = {
+        query: {
+          _id: params.id,
+          userId: user.userId
+        },
+        update: body,
+      }
+      const result = await blogsModel.update(data, session);
+      if (result === null) {
+        throw new BadRequest('잘못된 데이터입니다.');
+      }
+      await session.commitTransaction();
+      return result;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
+  }
+
   async read(req) {
     try {
       const {
