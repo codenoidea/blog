@@ -28,6 +28,17 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
+module.exports.list = async (user) => {
+  try {
+    console.log(3)
+    return await BlogsModel.find({
+      name: user.name
+    });
+  } catch (error) {
+    throw new BadRequest('목록을 가져오지 못했습니다.');
+  }
+}
+
 module.exports.create = async (params, session) => {
   try {
     return await BlogsModel.create([params], {

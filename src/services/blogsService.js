@@ -7,6 +7,17 @@ import {
 } from '../utils/errors';
 
 class BlogsService {
+  async list(req) {
+    try {
+      const {
+        user
+      } = req;
+      return await blogsModel.list(user);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async create(data) {
     const session = await mongoose.startSession();
     session.startTransaction();
