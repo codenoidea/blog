@@ -9,9 +9,12 @@ class Jwt {
   }
 
   sign(user) {
+    console.log(user);
     return jwt.sign({
-      user
-    }, this.secretKey);
+        userId: user._id,
+        name: user.name
+      },
+      this.secretKey);
   }
 }
 

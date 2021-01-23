@@ -20,7 +20,7 @@ class UserService {
         name: user.name
       });
       await comparePassword(user, userResult[0]);
-      const token = Jwt.sign(user);
+      const token = Jwt.sign(userResult[0]);
       return {
         token
       };
