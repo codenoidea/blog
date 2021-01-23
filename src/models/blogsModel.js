@@ -32,6 +32,21 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
+module.exports.delete = async (data, session) => {
+  try {
+    const blog = await BlogsModel.findOne(data.query);
+    if (blog) {
+      return await BlogsModel.findByIdAndRemove({
+        _id: blog._id
+      }, session);
+    }
+    return null;
+  } catch (error) {
+    console.error(error);
+    throw new BadRequest('삭제시 오류가 발생했습니다.');
+  }
+}
+
 module.exports.update = async (data, session) => {
   try {
     const blog = await BlogsModel.findOne(data.query);

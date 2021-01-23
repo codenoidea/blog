@@ -5,6 +5,17 @@ const router = express.Router();
 import BlogsService from '../services/blogsService';
 import authenticateJWT from '../middleware/authenticate';
 
+router.delete('/:id', authenticateJWT, async (req, res, next) => {
+  try {
+    const result = await BlogsService.delete(req);
+    res.json({
+      result
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.put('/:id', authenticateJWT, async (req, res, next) => {
   try {
     const result = await BlogsService.update(req);
