@@ -32,9 +32,13 @@ const BlogsSchema = new Schema({
 
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
+async function getFindOne(data) {
+  return await BlogsModel.findOne(data.query);
+}
+
 export async function remove(data, session) {
   try {
-    const blog = await BlogsModel.findOne(data.query);
+    const blog = await getFindOne(data);
     if (blog) {
       return await BlogsModel.findByIdAndRemove({
         _id: blog._id
@@ -49,7 +53,7 @@ export async function remove(data, session) {
 
 export async function update(data, session) {
   try {
-    const blog = await BlogsModel.findOne(data.query);
+    const blog = await getFindOne(data);
     if (blog) {
       return await BlogsModel.findByIdAndUpdate({
           _id: blog._id
