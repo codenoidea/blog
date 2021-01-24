@@ -30,21 +30,24 @@ const BlogsSchema = new Schema({
   },
 });
 
-const BlogsModel = mongoose.model('blogs', BlogsSchema);
+BlogsSchema.pre('updateOne', function () {
+  console.log('updateOne !!');
+  this.updateOne({}, {
+    $set: {
+      updated: new Date().toISOString()
+    }
+  });
+});
 
-async function getFindOne(data) {
-  return await BlogsModel.findOne(data.query);
-}
+BlogsSchema.pre('deleteOne', function () {
+  console.log('deleteOne !!');
+});
+
+const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
 export async function remove(data, session) {
   try {
-    const blog = await getFindOne(data);
-    if (blog) {
-      return await BlogsModel.findByIdAndRemove({
-        _id: blog._id
-      }, session);
-    }
-    return null;
+    return await BlogsModel.deleteOne(data.query, session);
   } catch (error) {
     console.error(error);
     throw new BadRequest('삭제시 오류가 발생했습니다.');
@@ -53,17 +56,7 @@ export async function remove(data, session) {
 
 export async function update(data, session) {
   try {
-    const blog = await getFindOne(data);
-    if (blog) {
-      const update = data.update;
-      update.updated = new Date().toISOString();
-      return await BlogsModel.updateMany({
-        _id: blog._id
-      }, update, {
-        session
-      });
-    }
-    return null;
+    return await BlogsModel.updateOne(data.query, data.update, session);
   } catch (error) {
     console.error(error);
     throw new BadRequest('저장시 오류가 발생했습니다.');
