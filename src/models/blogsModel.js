@@ -47,19 +47,27 @@ const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
 export async function remove(data, session) {
   try {
-    return await BlogsModel.deleteOne(data.query, session);
+    const result = await BlogsModel.deleteOne(data.query, session);
+    if (result.n === 0) {
+      throw new BadRequest('잘못된 접근입니다.');
+    }
+    return true;
   } catch (error) {
     console.error(error);
-    throw new BadRequest('삭제시 오류가 발생했습니다.');
+    throw error || new BadRequest('삭제시 오류가 발생했습니다.');
   }
 }
 
 export async function update(data, session) {
   try {
-    return await BlogsModel.updateOne(data.query, data.update, session);
+    const result = await BlogsModel.updateOne(data.query, data.update, session);
+    if (result.n === 0) {
+      throw new BadRequest('잘못된 접근입니다.');
+    }
+    return true;
   } catch (error) {
     console.error(error);
-    throw new BadRequest('저장시 오류가 발생했습니다.');
+    throw error || new BadRequest('저장시 오류가 발생했습니다.');
   }
 };
 
