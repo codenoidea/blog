@@ -6,7 +6,7 @@ import {
 
 const handleErrors = (err, req, res, next) => {
   const {
-    params,
+    user,
     body,
     query,
     url,
@@ -14,7 +14,7 @@ const handleErrors = (err, req, res, next) => {
   } = req;
 
   const detail = {
-    params,
+    user,
     body,
     query,
     api: `${method} ${url}`

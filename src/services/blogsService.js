@@ -1,13 +1,13 @@
 'use strict'
 
 import mongoose from 'mongoose';
-import blogsModel from '../models/blogsModel';
+import * as blogsModel from '../models/blogsModel';
 import {
   BadRequest
 } from '../utils/errors';
 
 class BlogsService {
-  async delete(req) {
+  async remove(req) {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -21,7 +21,7 @@ class BlogsService {
           userId: user.userId
         },
       }
-      const result = await blogsModel.delete(data, session);
+      const result = await blogsModel.remove(data, session);
       if (result === null) {
         throw new BadRequest('잘못된 데이터입니다.');
       }
@@ -70,7 +70,11 @@ class BlogsService {
       const {
         params
       } = req;
-      return await blogsModel.read(params);
+      const result = await blogsModel.read(params);
+      if (result) {
+        return result;
+      }
+      throw new BadRequest('잘못된 데이터입니다.');
     } catch (error) {
       throw error;
     }

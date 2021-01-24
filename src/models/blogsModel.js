@@ -30,41 +30,48 @@ const BlogsSchema = new Schema({
   },
 });
 
+BlogsSchema.pre('updateOne', function () {
+  console.log('updateOne !!');
+  this.updateOne({}, {
+    $set: {
+      updated: new Date().toISOString()
+    }
+  });
+});
+
+BlogsSchema.pre('deleteOne', function () {
+  console.log('deleteOne !!');
+});
+
 const BlogsModel = mongoose.model('blogs', BlogsSchema);
 
-module.exports.delete = async (data, session) => {
+export async function remove(data, session) {
   try {
-    const blog = await BlogsModel.findOne(data.query);
-    if (blog) {
-      return await BlogsModel.findByIdAndRemove({
-        _id: blog._id
-      }, session);
+    const result = await BlogsModel.deleteOne(data.query, session);
+    if (result.n === 0) {
+      throw new BadRequest('잘못된 접근입니다.');
     }
-    return null;
+    return true;
   } catch (error) {
     console.error(error);
-    throw new BadRequest('삭제시 오류가 발생했습니다.');
+    throw error || new BadRequest('삭제시 오류가 발생했습니다.');
   }
 }
 
-module.exports.update = async (data, session) => {
+export async function update(data, session) {
   try {
-    const blog = await BlogsModel.findOne(data.query);
-    if (blog) {
-      return await BlogsModel.findByIdAndUpdate({
-        _id: blog._id
-      }, data.update, {
-        session: session
-      });
+    const result = await BlogsModel.updateOne(data.query, data.update, session);
+    if (result.n === 0) {
+      throw new BadRequest('잘못된 접근입니다.');
     }
-    return null;
+    return true;
   } catch (error) {
     console.error(error);
-    throw new BadRequest('저장시 오류가 발생했습니다.');
+    throw error || new BadRequest('저장시 오류가 발생했습니다.');
   }
 };
 
-module.exports.read = async (params) => {
+export async function read(params) {
   try {
     return await BlogsModel.findOne({
       _id: params.id
@@ -74,7 +81,7 @@ module.exports.read = async (params) => {
   }
 }
 
-module.exports.list = async (user) => {
+export async function list(user) {
   try {
     return await BlogsModel.find({
       userId: user.userId
@@ -84,11 +91,11 @@ module.exports.list = async (user) => {
   }
 }
 
-module.exports.create = async (params, session) => {
+export async function create(params, session) {
   try {
-    return await BlogsModel.create([params], {
-      session: session
-    });
+    return await BlogsModel.create([params],
+      session
+    );
   } catch (error) {
     console.error(error);
     throw new BadRequest('생성시 오류가 발생했습니다.');
