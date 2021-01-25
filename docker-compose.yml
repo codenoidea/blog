@@ -6,16 +6,68 @@ services:
     restart: always
     environment:
       - NODE_ENV=development
-      - mongoDb=mongodb://mongo:27017/blog
+      - mongoDb=mongodb://mongo1:27017/blog
     build: .
     ports:
       - '3000:3000'
     links:
-      - mongo
-  mongo:
-    container_name: mongo
+      - mongo1
+
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
     image: mongo
-    volumes:
-      - ./data:/data/db
+    expose:
+      - 27017
     ports:
-      - '27017:27017'
+      - "27020:27017"      
+    restart: always
+    volumes:
+      - mongo1:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo
+    expose:
+      - 27017
+    ports:
+      - "27021:27017"      
+    restart: always
+    volumes:
+      - mongo2:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo
+    expose:
+      - 27017
+    ports:
+      - "27022:27017"      
+    restart: always
+    volumes:
+      - mongo3:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+  mongosetup:
+    image: mongo
+    links:
+      - mongo1:mongo1
+      - mongo2:mongo2
+      - mongo3:mongo3
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes:
+      - .:/scripts
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/mongo_setup.sh" ]
+
+volumes:
+  mongo1:
+  mongo2:
+  mongo3:      
